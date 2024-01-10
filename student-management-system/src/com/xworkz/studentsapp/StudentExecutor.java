@@ -10,7 +10,7 @@ public class StudentExecutor {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of students to add : ");
         int studentCount = scanner.nextInt();
-        ClassRoom classroom = new ClassRoom(studentCount);
+        ClassRoom classroom = new ClassRoom();
 
         for (int i = 0; i < studentCount; i++) {
             Student students = new Student();
@@ -55,41 +55,40 @@ public class StudentExecutor {
         do{
             System.out.println("------------------------------------------------------------");
             System.out.println("Enter");
-            System.out.println("1. To get details of students ");
+            System.out.println("1. To get details of all students ");
             System.out.println("2. To get details of a student using their student id ");
             System.out.println("3. To update student class room using their student id ");
             System.out.println("4. To delete student details having given id ");
             int option = scanner.nextInt();
+            try {
 
-            switch(option){
-                case 1 : classroom.getAllStudentsDetails();
-                    break;
+                switch (option) {
+                    case 1:
+                        classroom.getAllStudentsDetails();
+                        break;
 
-                case 2 : System.out.println("Enter the student id to get details : ");
-                    Student newStudent = classroom.getStudentInfoById(scanner.nextInt());
-                    System.out.println("ID: " + newStudent.getStudentId() + "   Name: "
-                            + newStudent.getStudentName() + "   FatherName: "
-                            + newStudent.getStudentFatherName() + "   Class: "
-                            + newStudent.getClassRoom() + "   Section: "
-                            + newStudent.getSection() + "   Gender: "
-                            + newStudent.getStudentGender() + "   Blood Group: "
-                            + newStudent.getBloodGroup() + "   E-mail-id: "
-                            + newStudent.getEmailId() + "   Caste: "
-                            + newStudent.getStudentCaste() + "   Contact: "
-                            + newStudent.getContactNumber() + "   Address: "
-                            + newStudent.getAddress());
-                    break;
+                    case 2:
+                        System.out.println("Enter the student id to get details : ");
+                        Student newStudent = classroom.getStudentInfoById(scanner.nextInt());
+                        System.out.println(newStudent);
+                        break;
 
-                case 3 : System.out.println("Enter the student id and new class room to update : ");
-                    classroom.updateStudentClassById(scanner.nextInt(), scanner.nextInt());
-                    break;
+                    case 3:
+                        System.out.println("Enter the student id and new class room to update : ");
+                        classroom.updateStudentClassById(scanner.nextInt(), scanner.nextInt());
+                        break;
 
-                case 4 : System.out.println("Enter the student id to delete : ");
-                    classroom.deleteStudentDetailsByName(scanner.next());
-                    break;
+                    case 4:
+                        System.out.println("Enter the student id to delete : ");
+                        classroom.deleteStudentDetailsByName(scanner.next());
+                        break;
 
-                default: System.out.println("INVALID INPUT --- Enter a valid option from above ");
+                    default:
+                        System.out.println("INVALID INPUT --- Enter a valid option from above ");
 
+                }
+            }catch(NullPointerException e){
+                e.printStackTrace();
             }
             System.out.println("Do you want to continue? --- Y/N ---");
             input = scanner.next();

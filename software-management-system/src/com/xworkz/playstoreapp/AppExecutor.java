@@ -2,40 +2,39 @@ package com.xworkz.playstoreapp;
 
 import com.xworkz.playstoreapp.application.Application;
 import com.xworkz.playstoreapp.hub.SoftwareHub;
-import java.util.Scanner;
+import com.xworkz.playstoreapp.hub.impl.PlaystoreImpl;
+
+import java.util.*;
 
 public class AppExecutor {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the number of applications to be added :");
+        System.out.println("Enter the details of applications to be added :");
         int appsCount = scanner.nextInt();
 
-        SoftwareHub softwareHubNew = new SoftwareHub(appsCount);
+        SoftwareHub softwareHubNew = new PlaystoreImpl();
 
         for (int i = 0; i < appsCount; i++) {
             Application applications = new Application();
 
-            System.out.println("Enter the app "+(i+1)+" id");
-            applications.setApplicationId(scanner.nextInt());
-
-            System.out.println("Enter the app "+(i+1)+" name");
+            System.out.println("Enter the app name");
             applications.setApplicationName(scanner.next());
 
-            System.out.println("Enter the app "+(i+1)+" company name");
+            System.out.println("Enter the app company name");
             applications.setCompanyName(scanner.next());
 
-            System.out.println("Enter the app "+(i+1)+" version");
+            System.out.println("Enter the app version");
             applications.setAppVersion(scanner.next());
 
-            System.out.println("Enter the app "+(i+1)+" size");
+            System.out.println("Enter the app size");
             applications.setAppSizeInMb(scanner.nextDouble());
 
-            System.out.println("Enter the app "+(i+1)+" type");
+            System.out.println("Enter the app type");
             applications.setAppType(scanner.next());
 
-            System.out.println("Enter the app "+(i+1)+" release date");
+            System.out.println("Enter the app release date");
             applications.setReleaseYear(scanner.next());
 
             softwareHubNew.addApplications(applications);
@@ -55,67 +54,106 @@ public class AppExecutor {
             System.out.println(" 8. To fetch the application size using app name");
             System.out.println(" 9. To update/change the company name of all applications having the old company name to newer one");
             System.out.println(" 10. To delete an application  using app name");
+            System.out.println(" 11. To add a new application");
             int options  = scanner.nextInt();
 
-            switch(options){
-                case 1 : softwareHubNew.getApplications();
-                    break;
+            try {
+                switch (options) {
+                    case 1:
+                        softwareHubNew.getApplications();
+                        break;
 
-                case 2 : System.out.println("Provide an id of an application to be searched");
-                    scanner.nextLine();
-                    Application app3 = softwareHubNew.getApplicationById(scanner.nextInt());
-                    System.out.println("  Application name: " + app3.getApplicationName() + "   Application id: " + app3.getApplicationId());
-                    System.out.println();
-                    break;
+                    case 2:
+                        System.out.println("Provide an id of an application to be searched");
+                        scanner.nextLine();
+                        Application app3 = softwareHubNew.getApplicationById(scanner.nextInt());
+                        System.out.println(app3.toString());
+                        System.out.println();
+                        break;
 
-                case 3 : System.out.println("Enter the name of the application to be searched :");
-                    Application app1 = softwareHubNew.getApplicationByName(scanner.next());
-                    System.out.println("  Application name: "+ app1.getApplicationName() + "   Application id: " + app1.getApplicationId() + "  Application company name: " +app1.getCompanyName());
-                    System.out.println();
-                    break;
+                    case 3:
+                        System.out.println("Enter the name of the application to be searched :");
+                        Application app1 = softwareHubNew.getApplicationByName(scanner.next());
+                        System.out.println(app1.toString());
+                        System.out.println();
+                        break;
 
-                case 4 : System.out.println("Enter the type of an application to find :");
-                    Application app2 = softwareHubNew.getApplicationByType(scanner.next());
-                    System.out.println("  Application name: "+ app2.getApplicationName() + "   Application type: " + app2.getAppType()+ "  Application version: "+app2.getAppVersion());
-                    System.out.println();
-                    break;
+                    case 4:
+                        System.out.println("Enter the type of an application to find :");
+                        Application app2 = softwareHubNew.getApplicationByType(scanner.next());
+                        System.out.println(app2.toString());
+                        System.out.println();
+                        break;
 
-                case 5 : System.out.println("Provide the Type of an application to get it's name");
-                    String appName1 = softwareHubNew.getApplicationNameByAppType(scanner.next());
-                    System.out.println("Application Type of the Given AppName is: "+appName1);
-                    System.out.println();
-                    break;
+                    case 5:
+                        System.out.println("Provide the Type of an application to get it's name");
+                        String appName1 = softwareHubNew.getApplicationNameByAppType(scanner.next());
+                        System.out.println("Application Type of the Given AppName is: " + appName1);
+                        System.out.println();
+                        break;
 
-                case 6 : System.out.println("Enter the application name to find it's type");
-                    String appType2 = softwareHubNew.getApplicationTypeByAppName(scanner.next());
-                    System.out.println("Application Type of the Given AppName is: "+appType2);
-                    System.out.println();
-                    break;
+                    case 6:
+                        System.out.println("Enter the application name to find it's type");
+                        String appType2 = softwareHubNew.getApplicationTypeByAppName(scanner.next());
+                        System.out.println("Application Type of the Given AppName is: " + appType2);
+                        System.out.println();
+                        break;
 
-                case 7 : System.out.println("Enter the Application name to get it's id:");
-                    int appId = softwareHubNew.getApplicationIdByName(scanner.next());
-                    System.out.println("Application Id of the given application name is:  "+appId);
-                    System.out.println();
-                    break;
+                    case 7:
+                        System.out.println("Enter the Application name to get it's id:");
+                        int appId = softwareHubNew.getApplicationIdByName(scanner.next());
+                        System.out.println("Application Id of the given application name is:  " + appId);
+                        System.out.println();
+                        break;
 
-                case 8 : System.out.println("Enter the app name to get it's size in MB");
-                    double appSize = softwareHubNew.getApplicationSizeByAppName(scanner.next());
-                    System.out.println("Size of the given Application is: "+appSize);
-                    System.out.println();
-                    break;
+                    case 8:
+                        System.out.println("Enter the app name to get it's size in MB");
+                        double appSize = softwareHubNew.getApplicationSizeByAppName(scanner.next());
+                        System.out.println("Size of the given Application is: " + appSize);
+                        System.out.println();
+                        break;
 
-                case 9 :  System.out.println("Enter the old name and the new name of a company to change:");
-                    softwareHubNew.updateCompaniesNameByOldCompanyName(scanner.next(),scanner.next());
-                    break;
+                    case 9:
+                        System.out.println("Enter the old name and the new name of a company to change:");
+                        softwareHubNew.updateCompaniesNameByOldCompanyName(scanner.next(), scanner.next());
+                        break;
 
-                case 10 : System.out.println("Enter the application name that you want to delete: ");
-                    softwareHubNew.deleteApplicationByAppName(scanner.next());
-                    break;
+                    case 10:
+                        System.out.println("Enter the application name that you want to delete: ");
+                        softwareHubNew.deleteApplicationByAppName(scanner.next());
+                        break;
 
-                default:
-                    System.out.println("----- Invalid option --------- Please Enter a valid option ----------");
+                    case 11:Application applications1 = new Application();
+                        System.out.println("Enter the app name");
+                        applications1.setApplicationName(scanner.next());
 
+                        System.out.println("Enter the app company name");
+                        applications1.setCompanyName(scanner.next());
+
+                        System.out.println("Enter the app version");
+                        applications1.setAppVersion(scanner.next());
+
+                        System.out.println("Enter the app size");
+                        applications1.setAppSizeInMb(scanner.nextDouble());
+
+                        System.out.println("Enter the app type");
+                        applications1.setAppType(scanner.next());
+
+                        System.out.println("Enter the app release date");
+                        applications1.setReleaseYear(scanner.next());
+
+                        softwareHubNew.addApplications(applications1);
+                        break;
+
+                    default:
+                        System.out.println("----- Invalid option --------- Please Enter a valid option ----------");
+
+                }
+            }catch(NullPointerException e){
+                System.out.println("--------------Cannot access null object------------");
+                e.printStackTrace();
             }
+
             System.out.println("Do you want to continue : Y/N ");
             input = scanner.next();
 
@@ -123,21 +161,5 @@ public class AppExecutor {
 
         System.out.println("Thank for using our app !! -----Visit again !!!!!!!!!");
 
-//        String appCompanyName = softwareHub.getApplicationCompanyNameByAppName("WhatsApp");
-//        System.out.println("Company that Launched the given application is "+appCompanyName);
-//        System.out.println();
-//        System.out.println("Enter the app name and it's newer version to update");
-//        softwareHubNew.updateApplicationVersionByAppName(scanner.next(),scanner.next());
-//        System.out.println("Enter the app id and it's newer version to update:");
-//        softwareHubNew.updateAppCompanyNameById(scanner.nextInt(),scanner.next());
-//        softwareHubNew.getApplications();
-//        softwareHub.updateAppVersionAndSizeByAppName("Twitter","v-2023-04",9.678);
-//        System.out.println();
-//        System.out.println("Applications pre deletion are :");
-//        softwareHub.getApplications();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println("Applications post deletion are : ");
-//        softwareHubNew.getApplications();
     }
 }

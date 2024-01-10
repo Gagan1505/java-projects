@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 
 public class Application {
 
@@ -17,5 +18,6 @@ public class Application {
     private String releaseYear;
     private String appVersion;
     private String appType;
+
 
 }

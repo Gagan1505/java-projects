@@ -1,13 +1,19 @@
 package com.xworkz.studentsapp.classroom;
+import com.xworkz.studentsapp.exceptions.NoStudentsFoundException;
+import com.xworkz.studentsapp.exceptions.NoStudentPresentException;
+import com.xworkz.studentsapp.exceptions.StudentNullPointerException;
+import com.xworkz.studentsapp.exceptions.UpdationFailedException;
 import com.xworkz.studentsapp.student.Student;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ClassRoom {
 
-    Student students[] ;
-    public ClassRoom(int studentsCount){
-        students = new Student[studentsCount];
+    List<Student> students = new ArrayList<>();
+    public ClassRoom(){
+
     }
 
     int index = 0;
@@ -15,38 +21,51 @@ public class ClassRoom {
     public boolean addStudentDetails(Student student){
 
         boolean isAdded = false;
-        if(student != null){
-            students[index++] = student;
-            isAdded = true;
-            System.out.println("Student details added successfully");
+        try {
+            if (student != null) {
+                students.add(student);
+                isAdded = true;
+                System.out.println("Student details added successfully");
+            }else {
+                throw new StudentNullPointerException();
+            }
+        }catch(StudentNullPointerException e){
+            e.printStackTrace();
         }
         return isAdded;
     }
 
     public void getAllStudentsDetails(){
-        for (int i = 0; i < this.students.length; i++) {
-            System.out.println("ID: " + students[i].getStudentId() + "   Name: "
-                    + students[i].getStudentName() + "   FatherName: "
-                    + students[i].getStudentFatherName() + "   Class: "
-                    + students[i].getClassRoom() + "   Section: "
-                    + students[i].getSection() + "   Gender: "
-                    + students[i].getStudentGender() + "   Blood Group: "
-                    + students[i].getBloodGroup() + "   E-mail-id: "
-                    + students[i].getEmailId() + "   Caste: "
-                    + students[i].getStudentCaste() + "   Contact: "
-                    + students[i].getContactNumber() + "   Address: "
-                    + students[i].getAddress());
+        try{
+            if(students.size() > 0){
+                for(Student student : students){
+                    System.out.println(student);
+                }
+            }else {
+                throw new NoStudentsFoundException();
+            }
+        }catch(NoStudentsFoundException e){
+            e.printStackTrace();
         }
     }
 
     public Student getStudentInfoById(int studentId){
         Student newStudent = null;
 
-        for (int i = 0; i < this.students.length; i++) {
-            if(students[i].getStudentId() == studentId){
-                newStudent = students[i];
-                System.out.println("Student Info found ---- visit executor ---");
+        try{
+            if(students.size() > 0){
+                for (Student student : students){
+                    if(student.getStudentId() == studentId){
+                        newStudent = student;
+                    }else{
+                        throw new NoStudentPresentException("given Id");
+                    }
+                }
+            }else{
+                throw new NoStudentsFoundException();
             }
+        }catch(NoStudentsFoundException | NoStudentPresentException e){
+            e.printStackTrace();
         }
 
         return newStudent;
@@ -54,32 +73,44 @@ public class ClassRoom {
 
     public boolean updateStudentClassById(int studentId, int newClassName){
         boolean isUpdated = false;
-        for (int i = 0; i < this.students.length; i++) {
-            if(students[i].getStudentId() == studentId){
-                students[i].setClassRoom(newClassName);
-                System.out.println("Classroom updated successfully : ");
-                isUpdated = true;
+        try{
+            if(students.size() > 0){
+                for (Student student : students){
+                    if(student.getStudentId() == studentId){
+                        student.setClassRoom(newClassName);
+                        isUpdated = true;
+                        System.out.println("Updation done successfully");
+                    }else{
+                        throw new UpdationFailedException();
+                    }
+                }
+            }else{
+                throw new NoStudentsFoundException();
             }
+        }catch(UpdationFailedException | NoStudentsFoundException e){
+            e.printStackTrace();
         }
         return isUpdated;
     }
 
     public void deleteStudentDetailsByName(String studentName){
 
-        int newIndex = 0;
-        for (int i = 0; i < this.students.length; i++) {
-            if(!students[i].getStudentName().equals(studentName)){
-                students[newIndex++] = students[i];
+        try{
+            if (students.size() > 0){
+                for (Student student : students){
+                    if(student.getStudentName().equals(studentName)){
+                        System.out.println("Details of deleted students are :");
+                        System.out.println(student);
+                        students.remove(student);
+                    }else{
+                        throw new NoStudentPresentException("with entered name ------");
+                    }
+                }
+            }else{
+                throw new NoStudentsFoundException();
             }
-            else{
-                System.out.println("Student deleted successfully : And details are --- ");
-                System.out.println(" ID : " +students[i].getStudentId()+
-                        "  Name : " +students[i].getStudentName()+
-                        "  ClassRoom : " +students[i].getClassRoom()+
-                        "  Section : " +students[i].getSection());
-            }
+        }catch(NoStudentsFoundException | NoStudentPresentException e){
+            e.printStackTrace();
         }
-
-        students = Arrays.copyOf(students,newIndex);
     }
 }
