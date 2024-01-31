@@ -2,6 +2,7 @@ package com.xworkz.january.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Table(name = "super_hero")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SuperHeroEntity {
 
     @Id
